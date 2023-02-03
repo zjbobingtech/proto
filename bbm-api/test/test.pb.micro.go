@@ -52,7 +52,7 @@ func NewTestService(name string, c client.Client) TestService {
 }
 
 func (c *testService) Test(ctx context.Context, in *TestRequest, opts ...client.CallOption) (*TestResponse, error) {
-	req := c.c.NewRequest(c.name, "Test.test", in)
+	req := c.c.NewRequest(c.name, "Test.Test", in)
 	out := new(TestResponse)
 	err := c.c.Call(ctx, req, out, opts...)
 	if err != nil {

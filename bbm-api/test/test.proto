@@ -9,7 +9,8 @@ message testRequest {
 }
 
 message TestResponse {
-  string content = 1;
+  string code = 1;
+  string content = 2;
 }
 
 service Test {

@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package test;
+
+option go_package = "./bbm-api/test;test";
+
+message testRequest {
+  string content = 1;
+}
+
+message TestResponse {
+  string content = 1;
+}
+
+service Test {
+  rpc test(testRequest) returns(TestResponse);
+}

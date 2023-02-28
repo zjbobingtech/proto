@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package basic;
+
+option go_package = "./bbm/basic;basic";
+
+
+service Basic {
+  rpc BasicVerifyRbac(BasicVerifyRbacRequest) returns(BasicResponse); //验证接口权限
+  rpc BasicGlobalParameters(BasicGlobalParametersRequest) returns(BasicGlobalParametersResponse); //获取全局参数
+  rpc BasicBehaviorTrace(BasicBehaviorTraceRequest)returns(BasicResponse); //用户行为记录
+}
+
+message BasicBehaviorTraceRequest{
+  string behavior_type = 1;
+  string behavior_content = 2;
+}
+
+message BasicGlobalParametersResponse {
+  int64 StatusCode = 1;
+  string code = 2;
+  repeated BasicGlobalParametersData data = 3;
+}
+
+
+message BasicGlobalParametersData {
+  int64  id = 1;
+  string key = 2;
+  string value = 3;
+  string default_value = 4;
+  string description = 5;
+  string type = 6;
+  string db_type = 7;
+  string title = 8;
+  string group = 9;
+  int64 group_sort = 10;
+  int64 sort = 11;
+  string value_type = 12;
+  string value_template = 13;
+  string value_style = 14;
+  string disable_by = 15;
+  int64 has_private = 16;
+}
+
+message BasicGlobalParametersRequest {
+  int64  size = 1;
+}
+
+message BasicVerifyRbacRequest {
+  string Method = 1;
+  string FullPath = 2;
+}
+
+message BasicResponse {
+  int64 StatusCode = 1;
+  string code = 2;
+}

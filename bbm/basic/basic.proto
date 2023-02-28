@@ -49,7 +49,7 @@ message BasicGlobalParametersRequest {
 message BasicVerifyRbacRequest {
   string method = 1; //请求方法
   string full_path = 2;//请求路由
-  string role_id = 3;//角色id
+  int64 role_id = 3;//角色id
 }
 
 message BasicResponse {

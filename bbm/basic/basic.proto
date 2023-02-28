@@ -17,7 +17,7 @@ message BasicBehaviorTraceRequest{
 }
 
 message BasicGlobalParametersResponse {
-  int64 StatusCode = 1;
+  int64 status_code = 1;
   string code = 2;
   repeated BasicGlobalParametersData data = 3;
 }
@@ -47,11 +47,12 @@ message BasicGlobalParametersRequest {
 }
 
 message BasicVerifyRbacRequest {
-  string Method = 1;
-  string FullPath = 2;
+  string method = 1; //请求方法
+  string full_path = 2;//请求路由
+  string role_id = 3;//角色id
 }
 
 message BasicResponse {
-  int64 StatusCode = 1;
+  int64 status_code = 1;
   string code = 2;
 }

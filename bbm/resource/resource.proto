@@ -14,7 +14,7 @@ message ResourceDetailRequest {
 }
 
 message ResourceDetailResponse {
-  int64 StatusCode = 1;
+  int64 status_code = 1;
   string code = 2;
   ResourceDetail data = 3;
 }
@@ -22,7 +22,7 @@ message ResourceDetailResponse {
 message ResourceDetail {
   int64 id = 1;
   int64 resource_id = 2;
-  string  username = 3;
+  string username = 3;
   string  password = 4;
   string  ip = 5;
 }

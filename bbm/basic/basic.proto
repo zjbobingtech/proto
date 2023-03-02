@@ -33,7 +33,7 @@ message BasicBehaviorTraceRequest{
   string request_url = 4;
   int64 status_code = 5;
   string status = 6;
-  string created_at = 7;
+  int64 created_at = 7;
   int64 start_at = 8;
   int64 end_at = 9;
   int64 time_duration = 10;

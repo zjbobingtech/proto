@@ -39,6 +39,7 @@ type BasicService interface {
 	BasicVerifyRbac(ctx context.Context, in *BasicVerifyRbacRequest, opts ...client.CallOption) (*BasicResponse, error)
 	BasicGlobalParameters(ctx context.Context, in *BasicGlobalParametersRequest, opts ...client.CallOption) (*BasicGlobalParametersResponse, error)
 	BasicBehaviorTrace(ctx context.Context, in *BasicBehaviorTraceRequest, opts ...client.CallOption) (*BasicResponse, error)
+	BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, opts ...client.CallOption) (*BasicUserInfoResponse, error)
 }
 
 type basicService struct {
@@ -83,12 +84,23 @@ func (c *basicService) BasicBehaviorTrace(ctx context.Context, in *BasicBehavior
 	return out, nil
 }
 
+func (c *basicService) BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, opts ...client.CallOption) (*BasicUserInfoResponse, error) {
+	req := c.c.NewRequest(c.name, "Basic.BasicUserInfo", in)
+	out := new(BasicUserInfoResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Basic service
 
 type BasicHandler interface {
 	BasicVerifyRbac(context.Context, *BasicVerifyRbacRequest, *BasicResponse) error
 	BasicGlobalParameters(context.Context, *BasicGlobalParametersRequest, *BasicGlobalParametersResponse) error
 	BasicBehaviorTrace(context.Context, *BasicBehaviorTraceRequest, *BasicResponse) error
+	BasicUserInfo(context.Context, *BasicUserInfoRequest, *BasicUserInfoResponse) error
 }
 
 func RegisterBasicHandler(s server.Server, hdlr BasicHandler, opts ...server.HandlerOption) error {
@@ -96,6 +108,7 @@ func RegisterBasicHandler(s server.Server, hdlr BasicHandler, opts ...server.Han
 		BasicVerifyRbac(ctx context.Context, in *BasicVerifyRbacRequest, out *BasicResponse) error
 		BasicGlobalParameters(ctx context.Context, in *BasicGlobalParametersRequest, out *BasicGlobalParametersResponse) error
 		BasicBehaviorTrace(ctx context.Context, in *BasicBehaviorTraceRequest, out *BasicResponse) error
+		BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, out *BasicUserInfoResponse) error
 	}
 	type Basic struct {
 		basic
@@ -118,4 +131,8 @@ func (h *basicHandler) BasicGlobalParameters(ctx context.Context, in *BasicGloba
 
 func (h *basicHandler) BasicBehaviorTrace(ctx context.Context, in *BasicBehaviorTraceRequest, out *BasicResponse) error {
 	return h.BasicHandler.BasicBehaviorTrace(ctx, in, out)
+}
+
+func (h *basicHandler) BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, out *BasicUserInfoResponse) error {
+	return h.BasicHandler.BasicUserInfo(ctx, in, out)
 }

@@ -9,11 +9,39 @@ service Basic {
   rpc BasicVerifyRbac(BasicVerifyRbacRequest) returns(BasicResponse); //验证接口权限
   rpc BasicGlobalParameters(BasicGlobalParametersRequest) returns(BasicGlobalParametersResponse); //获取全局参数
   rpc BasicBehaviorTrace(BasicBehaviorTraceRequest)returns(BasicResponse); //用户行为记录
+  rpc BasicUserInfo(BasicUserInfoRequest)returns(BasicUserInfoResponse); //获取用户基本信息
+}
+
+message BasicUserInfoRequest{
+  string Authorization = 1;
+}
+
+message BasicUserInfoResponse{
+  int64 status_code = 1;
+  string code = 2;
+  BasicUserInfo data = 3;
+}
+
+message BasicUserInfo{
+  string user_database_ids = 3;
 }
 
 message BasicBehaviorTraceRequest{
-  string behavior_type = 1;
-  string behavior_content = 2;
+  string  server_name = 1;
+  int64  user_id = 2;
+  string username = 3;
+  string request_url = 4;
+  string status_code = 5;
+  string status = 6;
+  string created_at = 7;
+  int64 start_at = 8;
+  int64 end_at = 9;
+  int64 time_duration = 10;
+  string client_ip = 11;
+  string method = 12;
+  string type = 13;
+  string content = 14;
+  string error_msg = 15;
 }
 
 message BasicGlobalParametersResponse {

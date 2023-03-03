@@ -10,6 +10,19 @@ service Basic {
   rpc BasicGlobalParameters(BasicGlobalParametersRequest) returns(BasicGlobalParametersResponse); //获取全局参数
   rpc BasicBehaviorTrace(BasicBehaviorTraceRequest)returns(BasicResponse); //用户行为记录
   rpc BasicUserInfo(BasicUserInfoRequest)returns(BasicUserInfoResponse); //获取用户基本信息
+  rpc BasicGetKeyDBType(BasicGetKeyDBTypeRequest)returns(BasicGetKeyDBTypeResponse); //获取用户基本信息
+}
+
+message BasicGetKeyDBTypeRequest{
+  string db_type = 1;
+  string key = 2;
+}
+
+
+message BasicGetKeyDBTypeResponse{
+  int64 status_code = 1;
+  string code = 2;
+  string data = 3;
 }
 
 message BasicUserInfoRequest{

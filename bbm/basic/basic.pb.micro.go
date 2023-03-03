@@ -40,6 +40,7 @@ type BasicService interface {
 	BasicGlobalParameters(ctx context.Context, in *BasicGlobalParametersRequest, opts ...client.CallOption) (*BasicGlobalParametersResponse, error)
 	BasicBehaviorTrace(ctx context.Context, in *BasicBehaviorTraceRequest, opts ...client.CallOption) (*BasicResponse, error)
 	BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, opts ...client.CallOption) (*BasicUserInfoResponse, error)
+	BasicGetKeyDBType(ctx context.Context, in *BasicGetKeyDBTypeRequest, opts ...client.CallOption) (*BasicGetKeyDBTypeResponse, error)
 }
 
 type basicService struct {
@@ -94,6 +95,16 @@ func (c *basicService) BasicUserInfo(ctx context.Context, in *BasicUserInfoReque
 	return out, nil
 }
 
+func (c *basicService) BasicGetKeyDBType(ctx context.Context, in *BasicGetKeyDBTypeRequest, opts ...client.CallOption) (*BasicGetKeyDBTypeResponse, error) {
+	req := c.c.NewRequest(c.name, "Basic.BasicGetKeyDBType", in)
+	out := new(BasicGetKeyDBTypeResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Basic service
 
 type BasicHandler interface {
@@ -101,6 +112,7 @@ type BasicHandler interface {
 	BasicGlobalParameters(context.Context, *BasicGlobalParametersRequest, *BasicGlobalParametersResponse) error
 	BasicBehaviorTrace(context.Context, *BasicBehaviorTraceRequest, *BasicResponse) error
 	BasicUserInfo(context.Context, *BasicUserInfoRequest, *BasicUserInfoResponse) error
+	BasicGetKeyDBType(context.Context, *BasicGetKeyDBTypeRequest, *BasicGetKeyDBTypeResponse) error
 }
 
 func RegisterBasicHandler(s server.Server, hdlr BasicHandler, opts ...server.HandlerOption) error {
@@ -109,6 +121,7 @@ func RegisterBasicHandler(s server.Server, hdlr BasicHandler, opts ...server.Han
 		BasicGlobalParameters(ctx context.Context, in *BasicGlobalParametersRequest, out *BasicGlobalParametersResponse) error
 		BasicBehaviorTrace(ctx context.Context, in *BasicBehaviorTraceRequest, out *BasicResponse) error
 		BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, out *BasicUserInfoResponse) error
+		BasicGetKeyDBType(ctx context.Context, in *BasicGetKeyDBTypeRequest, out *BasicGetKeyDBTypeResponse) error
 	}
 	type Basic struct {
 		basic
@@ -135,4 +148,8 @@ func (h *basicHandler) BasicBehaviorTrace(ctx context.Context, in *BasicBehavior
 
 func (h *basicHandler) BasicUserInfo(ctx context.Context, in *BasicUserInfoRequest, out *BasicUserInfoResponse) error {
 	return h.BasicHandler.BasicUserInfo(ctx, in, out)
+}
+
+func (h *basicHandler) BasicGetKeyDBType(ctx context.Context, in *BasicGetKeyDBTypeRequest, out *BasicGetKeyDBTypeResponse) error {
+	return h.BasicHandler.BasicGetKeyDBType(ctx, in, out)
 }

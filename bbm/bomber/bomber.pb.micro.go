@@ -36,6 +36,7 @@ func NewBomberEndpoints() []*api.Endpoint {
 // Client API for Bomber service
 
 type BomberService interface {
+	BomberCommandScriptDetail(ctx context.Context, in *BomberCommandScriptDetailRequest, opts ...client.CallOption) (*BomberScriptCommandDetailResponse, error)
 	BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, opts ...client.CallOption) (*BomberScriptDetailResponse, error)
 }
 
@@ -51,6 +52,16 @@ func NewBomberService(name string, c client.Client) BomberService {
 	}
 }
 
+func (c *bomberService) BomberCommandScriptDetail(ctx context.Context, in *BomberCommandScriptDetailRequest, opts ...client.CallOption) (*BomberScriptCommandDetailResponse, error) {
+	req := c.c.NewRequest(c.name, "Bomber.BomberCommandScriptDetail", in)
+	out := new(BomberScriptCommandDetailResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *bomberService) BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, opts ...client.CallOption) (*BomberScriptDetailResponse, error) {
 	req := c.c.NewRequest(c.name, "Bomber.BomberScriptDetail", in)
 	out := new(BomberScriptDetailResponse)
@@ -64,11 +75,13 @@ func (c *bomberService) BomberScriptDetail(ctx context.Context, in *BomberScript
 // Server API for Bomber service
 
 type BomberHandler interface {
+	BomberCommandScriptDetail(context.Context, *BomberCommandScriptDetailRequest, *BomberScriptCommandDetailResponse) error
 	BomberScriptDetail(context.Context, *BomberScriptDetailRequest, *BomberScriptDetailResponse) error
 }
 
 func RegisterBomberHandler(s server.Server, hdlr BomberHandler, opts ...server.HandlerOption) error {
 	type bomber interface {
+		BomberCommandScriptDetail(ctx context.Context, in *BomberCommandScriptDetailRequest, out *BomberScriptCommandDetailResponse) error
 		BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, out *BomberScriptDetailResponse) error
 	}
 	type Bomber struct {
@@ -80,6 +93,10 @@ func RegisterBomberHandler(s server.Server, hdlr BomberHandler, opts ...server.H
 
 type bomberHandler struct {
 	BomberHandler
+}
+
+func (h *bomberHandler) BomberCommandScriptDetail(ctx context.Context, in *BomberCommandScriptDetailRequest, out *BomberScriptCommandDetailResponse) error {
+	return h.BomberHandler.BomberCommandScriptDetail(ctx, in, out)
 }
 
 func (h *bomberHandler) BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, out *BomberScriptDetailResponse) error {

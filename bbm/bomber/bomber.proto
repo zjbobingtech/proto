@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package bomber;
+
+option go_package = "./bbm/bomber;bomber";
+
+service Bomber {
+  rpc BomberScriptDetail(BomberScriptDetailRequest) returns(BomberScriptDetailResponse);
+}
+
+message BomberScriptDetailRequest {
+  int64 id = 1;
+}
+
+
+message BomberScriptDetailResponse {
+  int64 status_code = 1;
+  string code = 2;
+  BomberScriptDetailData data = 3;
+}
+
+message BomberScriptDetailData {
+  int64  id = 1;
+  string name = 2;
+  string cn_name = 3;
+  string description = 4;
+  string  is_private = 5;
+  string  content = 6;
+  repeated int64  databases = 7;
+  int64 user_id = 8;
+  string variates = 9;
+  string system_command = 10; //是否是系统命令
+  string account = 11;
+  string version = 12;
+}

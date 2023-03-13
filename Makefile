@@ -8,3 +8,5 @@ proto:
 
 	protoc --proto_path=. --micro_out=.  --go_out=:. bbm/basic/basic.proto
 
+	protoc --proto_path=. --micro_out=.  --go_out=:. bbm/bomber/bomber.proto
+

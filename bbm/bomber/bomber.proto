@@ -10,11 +10,11 @@ service Bomber {
 }
 
 message BomberScriptDetailRequest {
-  string  name = 1;
+  string  id = 1;
 }
 
 message BomberCommandScriptDetailRequest {
-  string  name = 1;
+  string  id = 1;
 }
 
 message BomberScriptDetailResponse {

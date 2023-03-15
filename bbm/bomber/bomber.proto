@@ -7,6 +7,48 @@ option go_package = "./bbm/bomber;bomber";
 service Bomber {
   rpc BomberCommandScriptDetail(BomberCommandScriptDetailRequest) returns(BomberScriptCommandDetailResponse);
   rpc BomberScriptDetail(BomberScriptDetailRequest) returns(BomberScriptDetailResponse);
+  rpc BomberToolsDataExport(BomberToolsDataExportRequest) returns(BomberToolsDataExportResponse); //数据导出
+  rpc BomberToolsDataImport(BomberToolsDataImportRequest) returns(BomberToolsDataImportResponse); //数据导入
+}
+
+message BomberToolsDataImportResponse {
+  int64 status_code = 1;
+  string code = 2;
+  string data = 3;
+}
+
+
+message BomberToolsDataImportRequest {
+  int64  db_id = 1;
+  string  import_file_type = 2;
+  string file_uuid = 3;
+  string  table = 4; //csv 必须选择
+  string database = 5;
+  string username = 6;
+  string password = 7;
+}
+
+message BomberToolsDataExportResponse {
+  int64 status_code = 1;
+  string code = 2;
+  BomberToolsDataExportData data = 3;
+}
+
+message BomberToolsDataExportData {
+  string download_url = 1;
+  string download_domain = 2;
+}
+
+message BomberToolsDataExportRequest {
+  int64  db_id = 1;
+  string db_name = 2;
+  string schema = 3;
+  int64  limit = 4;
+  repeated string tables = 5; //导出的表 为空为全表
+  string  export_file_type = 6; //导出的文件类型 csv || sql
+  string export_content = 7; //导出的内容 data||struct|data_struct
+  string username = 8;
+  string password = 9;
 }
 
 message BomberScriptDetailRequest {

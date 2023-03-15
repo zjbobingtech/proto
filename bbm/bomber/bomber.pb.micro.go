@@ -38,6 +38,8 @@ func NewBomberEndpoints() []*api.Endpoint {
 type BomberService interface {
 	BomberCommandScriptDetail(ctx context.Context, in *BomberCommandScriptDetailRequest, opts ...client.CallOption) (*BomberScriptCommandDetailResponse, error)
 	BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, opts ...client.CallOption) (*BomberScriptDetailResponse, error)
+	BomberToolsDataExport(ctx context.Context, in *BomberToolsDataExportRequest, opts ...client.CallOption) (*BomberToolsDataExportResponse, error)
+	BomberToolsDataImport(ctx context.Context, in *BomberToolsDataImportRequest, opts ...client.CallOption) (*BomberToolsDataImportResponse, error)
 }
 
 type bomberService struct {
@@ -72,17 +74,41 @@ func (c *bomberService) BomberScriptDetail(ctx context.Context, in *BomberScript
 	return out, nil
 }
 
+func (c *bomberService) BomberToolsDataExport(ctx context.Context, in *BomberToolsDataExportRequest, opts ...client.CallOption) (*BomberToolsDataExportResponse, error) {
+	req := c.c.NewRequest(c.name, "Bomber.BomberToolsDataExport", in)
+	out := new(BomberToolsDataExportResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *bomberService) BomberToolsDataImport(ctx context.Context, in *BomberToolsDataImportRequest, opts ...client.CallOption) (*BomberToolsDataImportResponse, error) {
+	req := c.c.NewRequest(c.name, "Bomber.BomberToolsDataImport", in)
+	out := new(BomberToolsDataImportResponse)
+	err := c.c.Call(ctx, req, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // Server API for Bomber service
 
 type BomberHandler interface {
 	BomberCommandScriptDetail(context.Context, *BomberCommandScriptDetailRequest, *BomberScriptCommandDetailResponse) error
 	BomberScriptDetail(context.Context, *BomberScriptDetailRequest, *BomberScriptDetailResponse) error
+	BomberToolsDataExport(context.Context, *BomberToolsDataExportRequest, *BomberToolsDataExportResponse) error
+	BomberToolsDataImport(context.Context, *BomberToolsDataImportRequest, *BomberToolsDataImportResponse) error
 }
 
 func RegisterBomberHandler(s server.Server, hdlr BomberHandler, opts ...server.HandlerOption) error {
 	type bomber interface {
 		BomberCommandScriptDetail(ctx context.Context, in *BomberCommandScriptDetailRequest, out *BomberScriptCommandDetailResponse) error
 		BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, out *BomberScriptDetailResponse) error
+		BomberToolsDataExport(ctx context.Context, in *BomberToolsDataExportRequest, out *BomberToolsDataExportResponse) error
+		BomberToolsDataImport(ctx context.Context, in *BomberToolsDataImportRequest, out *BomberToolsDataImportResponse) error
 	}
 	type Bomber struct {
 		bomber
@@ -101,4 +127,12 @@ func (h *bomberHandler) BomberCommandScriptDetail(ctx context.Context, in *Bombe
 
 func (h *bomberHandler) BomberScriptDetail(ctx context.Context, in *BomberScriptDetailRequest, out *BomberScriptDetailResponse) error {
 	return h.BomberHandler.BomberScriptDetail(ctx, in, out)
+}
+
+func (h *bomberHandler) BomberToolsDataExport(ctx context.Context, in *BomberToolsDataExportRequest, out *BomberToolsDataExportResponse) error {
+	return h.BomberHandler.BomberToolsDataExport(ctx, in, out)
+}
+
+func (h *bomberHandler) BomberToolsDataImport(ctx context.Context, in *BomberToolsDataImportRequest, out *BomberToolsDataImportResponse) error {
+	return h.BomberHandler.BomberToolsDataImport(ctx, in, out)
 }
